@@ -10,5 +10,5 @@ exports.index = (req, res) => {
 
 // recebe method POST
 exports.form = (req, res) => {
-    res.send('POST');
+    res.send(req.body);
 };

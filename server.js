@@ -11,12 +11,20 @@ const app = express();
 const routes = require('./routes');
 
 
-// import caminho absoluto
-const path = require('path');
+// import helmet
+const helmet = require('helmet');
 
 
 //import middles
-const { middlewareGlobal } = require('./src/middlewares/middleware');
+const { middlewareGlobal, checkCsrfError, csrfMiddleware } = require('./src/middlewares/middleware');
+
+
+//import CSRF
+const csrf = require('csurf');
+
+
+// import caminho absoluto
+const path = require('path');
 
 
 // configuração mongo
@@ -43,7 +51,11 @@ app.use(express.urlencoded({ extended: true }));
 
 
 // configuração para uso de arquivos static
-app.use(express.static(path.resolve(__dirname,'public')))
+app.use(express.static(path.resolve(__dirname,'public')));
+
+
+// uso helmet
+app.use(helmet());
 
 
 // configuração de session
@@ -68,8 +80,14 @@ app.set('views', path.resolve(__dirname, 'src', 'views'));
 app.set('view engine', 'ejs');
 
 
+// uso do csrf
+app.use(csrf());
+
+
 // uso de middlewares
 app.use(middlewareGlobal);
+app.use(checkCsrfError);
+app.use(csrfMiddleware);
 
 
 // uso de routes
