@@ -1,16 +1,10 @@
-const HomeModel = require('../models/HomeModel');
-
-HomeModel.create({
-    titulo: 'RALDS',
-    descricao: 'dev'
-})
-.then(dados => console.log(dados))
-.catch(e => console.log(e));
-
-
 // envia pagina
 exports.index = (req, res) => {
+    // req.session.usuario = { nome: 'ralds', logado: true};
+    // console.log(req.session.usuario)
+
     res.render('index');
+    return;
 };
 
 

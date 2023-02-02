@@ -23,13 +23,9 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=password
-      - MONGO_INITDB_DATABASE=dbtest
-      - MONGO_NON_ROOT_USERNAME=dbtest
-      - MONGO_NON_ROOT_PASSWORD=password
 
     volumes:
-      - ./database-data:/data/db
-      # - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - ./mongo-db:/data/db
 
   mongo-express:
     image: mongo-express
@@ -46,4 +42,4 @@ services:
       - mongodb
 
 volumes:
-  database-data:
+  mongo-db:
