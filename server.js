@@ -11,22 +11,6 @@ const app = express();
 const routes = require('./routes');
 
 
-// import helmet
-const helmet = require('helmet');
-
-
-//import middles
-const { middlewareGlobal, checkCsrfError, csrfMiddleware } = require('./src/middlewares/middleware');
-
-
-//import CSRF
-const csrf = require('csurf');
-
-
-// import caminho absoluto
-const path = require('path');
-
-
 // configuração mongo
 const mongoose = require('mongoose');
 mongoose.set('strictQuery', true);
@@ -40,10 +24,30 @@ mongoose.connect(process.env.CONNECTMONGOSTRING, { useNewUrlParser: true, useUni
 .catch(e => console.log(e));
 
 
+//import middles
+const { middlewareGlobal, checkCsrfError, csrfMiddleware } = require('./src/middlewares/middleware');
+
+
+// import helmet
+const helmet = require('helmet');
+
+
+//import CSRF
+const csrf = require('csurf');
+
+
+// import caminho absoluto
+const path = require('path');
+
+
 // criação session
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const flash = require('connect-flash');
+
+
+// post de json
+app.use(express.json());
 
 
 // para receber dados no req de POST
@@ -52,10 +56,6 @@ app.use(express.urlencoded({ extended: true }));
 
 // configuração para uso de arquivos static
 app.use(express.static(path.resolve(__dirname,'public')));
-
-
-// uso helmet
-app.use(helmet());
 
 
 // configuração de session
@@ -75,9 +75,14 @@ const sessionOptions = session({
 app.use(sessionOptions);
 app.use(flash());
 
+
 // configuração de engine para render views
 app.set('views', path.resolve(__dirname, 'src', 'views'));
 app.set('view engine', 'ejs');
+
+
+// uso helmet
+app.use(helmet());
 
 
 // uso do csrf

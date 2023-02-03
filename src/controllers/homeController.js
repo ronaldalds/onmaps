@@ -1,14 +1,6 @@
-// envia pagina
-exports.index = (req, res) => {
-    // req.session.usuario = { nome: 'ralds', logado: true};
-    // console.log(req.session.usuario)
+const Contato = require('../models/ContatoModel');
 
-    res.render('index');
-    return;
-};
-
-
-// recebe method POST
-exports.form = (req, res) => {
-    res.send(req.body);
+exports.index = async(req, res) => {
+  const contatos = await Contato.buscaContatos();
+  res.render('index', { contatos });
 };
